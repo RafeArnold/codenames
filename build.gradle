@@ -1,0 +1,32 @@
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform' version '1.5.21'
+}
+
+group 'uk.co.rafearnold'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+kotlin {
+    jvm()
+    js {
+        browser {
+        }
+    }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation kotlin('stdlib-common')
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
+            }
+        }
+    }
+}

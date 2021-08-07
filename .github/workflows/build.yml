@@ -40,6 +40,10 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: jar
+      - name: Download front-end content artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: static
       - name: Set app version variable
         run: echo "APP_VERSION=$(jar_filename="$(echo jar/codenames-*-all.jar)"; jar_filename="${jar_filename##jar/codenames-}"; echo "${jar_filename%-all.jar}")" >> $GITHUB_ENV
       - name: Build the image

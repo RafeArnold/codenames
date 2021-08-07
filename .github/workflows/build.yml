@@ -32,7 +32,7 @@ jobs:
   build_image:
     name: Build Docker Image
     if: ${{ github.ref == 'refs/heads/main' }}
-    needs: [ build_jar ]
+    needs: [ build_app ]
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2

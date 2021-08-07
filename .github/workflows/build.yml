@@ -45,9 +45,9 @@ jobs:
       - name: Build the image
         run: docker build . --file Dockerfile --tag codenames:$APP_VERSION --build-arg JAR_NAME=codenames-$APP_VERSION-all.jar
       - name: Save the image
-        run: docker save codenames:$APP_VERSION > codenames-$APP_VERSION.tar
+        run: docker save codenames:$APP_VERSION > codenames.tar
       - name: Upload image artifact
         uses: actions/upload-artifact@v1
         with:
           name: image
-          path: codenames-${{ env.APP_VERSION }}.tar
+          path: codenames.tar

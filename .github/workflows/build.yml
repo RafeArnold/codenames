@@ -50,4 +50,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: image
-          path: codenames-${{ APP_VERSION }}.tar
+          path: codenames-${{ env.APP_VERSION }}.tar

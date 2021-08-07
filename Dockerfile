@@ -3,4 +3,4 @@ ARG JAR_NAME
 ENV JAR_NAME_ENV=$JAR_NAME
 COPY ./jar/$JAR_NAME /
 EXPOSE 8080
-ENTRYPOINT java -jar /$JAR_NAME_ENV
+ENTRYPOINT java -Dapplication.properties.path=codenames.properties -jar /$JAR_NAME_ENV

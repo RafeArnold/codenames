@@ -58,7 +58,7 @@ class Game : RComponent<GameProps, GameState>() {
                 else -> "wss:"
             }
         val socket =
-            WebSocket("$protocol//${window.location.host}${window.location.pathname.removePrefix("/")}/play/v1/events?game-id=$gameId")
+            WebSocket("$protocol//${window.location.host}${window.location.pathname.removeSuffix("/")}/play/v1/events?game-id=$gameId")
         setState { eventSocket = socket }
         socket.onmessage = {
             val message: Any? = it.data
@@ -144,7 +144,7 @@ class Game : RComponent<GameProps, GameState>() {
 
     private fun newGame(playerName: String) {
         val requestUrl =
-            "${window.location.protocol}//${window.location.host}${window.location.pathname.removePrefix("/")}/play/v1/new-game"
+            "${window.location.protocol}//${window.location.host}${window.location.pathname.removeSuffix("/")}/play/v1/new-game"
         window.fetch(requestUrl, RequestInit(method = "POST"))
             .then { response: Response ->
                 response.text()

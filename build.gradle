@@ -1,5 +1,9 @@
 plugins {
     id 'org.jetbrains.kotlin.multiplatform' version '1.5.21'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.21'
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 group 'uk.co.rafearnold'
@@ -9,8 +13,32 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    vertx_version = "3.9.1"
+}
+
 kotlin {
-    jvm()
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = '11'
+        }
+
+        application {
+            mainClassName = 'io.vertx.core.Launcher'
+        }
+
+        shadowJar {
+            def target = kotlin.targets.jvm
+            from target.compilations.main.output
+            def runtimeClasspath = target.compilations.main.runtimeDependencyFiles
+            manifest {
+                attributes 'Main-Verticle': 'uk.co.rafearnold.codenames.Starter'
+            }
+            configurations = [runtimeClasspath]
+        }
+
+        runShadow {}
+    }
     js {
         browser {
         }
@@ -20,6 +48,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation kotlin('stdlib-common')
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
             }
         }
         commonTest {
@@ -28,5 +57,28 @@ kotlin {
                 implementation kotlin('test-annotations-common')
             }
         }
+        jsMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin-wrappers:kotlin-react:17.0.2-pre.221-kotlin-1.5.21"
+                implementation "org.jetbrains.kotlin-wrappers:kotlin-react-dom:17.0.2-pre.221-kotlin-1.5.21"
+                implementation npm("react", "17.0.2")
+                implementation npm("react-dom", "17.0.2")
+            }
+        }
+        jvmMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+                implementation "io.vertx:vertx-core:$vertx_version"
+                implementation "io.vertx:vertx-config:$vertx_version"
+                implementation "io.vertx:vertx-web:$vertx_version"
+
+                implementation "com.google.inject:guice:4.2.3"
+
+                implementation "ch.qos.logback:logback-classic:1.2.3"
+            }
+        }
     }
 }
+
+runShadow.dependsOn jsBrowserDevelopmentWebpack

@@ -41,7 +41,7 @@ jobs:
         with:
           name: jar
       - name: Set app version variable
-        run: echo "APP_VERSION=$(jar_filename="$(echo se*)"; echo "${jar_filename:0:4}")" >> $GITHUB_ENV
+        run: echo "APP_VERSION=$(jar_filename="$(echo jar/codenames-*-all.jar)"; jar_filename="${jar_filename##codenames-}"; echo "${jar_filename%-all.jar}")" >> $GITHUB_ENV
       - name: Build the image
         run: docker build . --file Dockerfile --tag codenames:$APP_VERSION --build-arg JAR_NAME=codenames-$APP_VERSION-all.jar
       - name: Save the image

@@ -58,7 +58,7 @@ class Game : RComponent<GameProps, GameState>() {
                 else -> "wss:"
             }
         val socket =
-            WebSocket("$protocol//${window.location.host}${window.location.pathname.removeSuffix("/")}/play/v1/events?game-id=$gameId")
+            WebSocket("$protocol//${window.location.host}${window.location.pathname.removeSuffix("/")}/play/v1/events/?game-id=$gameId")
         setState { eventSocket = socket }
         socket.onmessage = {
             val message: Any? = it.data

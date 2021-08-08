@@ -4,4 +4,4 @@ ENV JAR_NAME_ENV=$JAR_NAME
 COPY ./jar/$JAR_NAME /
 COPY ./static /codenames/static
 EXPOSE 8080
-ENTRYPOINT java -Dapplication.properties.path=codenames.properties -jar /$JAR_NAME_ENV
+ENTRYPOINT java -Dapplication.properties.path=codenames.properties -Dlogback.configurationFile=codenames-logback.xml -jar /$JAR_NAME_ENV
